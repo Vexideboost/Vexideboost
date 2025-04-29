@@ -1,16 +1,14 @@
--- Загрузка библиотеки
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/GreenDeno/Venyx-UI-Library/main/source.lua"))()
-local venyx = library.new("Vexide", 5013109572)
 
--- Настройки
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/GreenDeno/Venyx-UI-Library/main/source.lua"))()
+local venyx = library.new("Vexide,by durst", 5013109572)
+
+
 local player = game:GetService("Players").LocalPlayer
 local rpgSpamEnabled = false
 local spamDelay = 0.05 -- Задержка между выстрелами (по умолчанию 0.05 сек)
 
--- Функция для получения целей
+
 local function getTargets()
-    -- Здесь должна быть твоя логика получения целей
-    -- Например, все игроки кроме себя:
     local targets = {}
     for _, v in ipairs(game:GetService("Players"):GetPlayers()) do
         if v ~= player and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
@@ -20,7 +18,6 @@ local function getTargets()
     return targets
 end
 
--- Функция выстрела RPG (твой код)
 local function fireInstantRocket()
     local character = player.Character
     if not character or not character:FindFirstChild("RPG") then return end
@@ -49,7 +46,7 @@ local function fireInstantRocket()
     end
 end
 
--- Автоматический спам
+
 spawn(function()
     while true do
         if rpgSpamEnabled then
@@ -63,24 +60,24 @@ end)
 local page = venyx:addPage("RPG Spammer", 5012544693)
 local combatSection = page:addSection("Управление спамом")
 
--- Переключатель авто-спама
+
 combatSection:addToggle("Авто RPG Spam", false, function(state)
     rpgSpamEnabled = state
     venyx:Notify("RPG Spam", state and "Автоспам активирован!" or "Автоспам выключен")
 end)
 
--- Кнопка для ручного выстрела
+
 combatSection:addButton("Ручной выстрел", function()
     fireInstantRocket()
     venyx:Notify("RPG", "Произведен ручной выстрел!")
 end)
 
--- Настройки скорости
+
 local settingsSection = page:addSection("Настройки")
 settingsSection:addSlider("Скорость спама", 0.05, 0.01, 1, function(value)
     spamDelay = value
     venyx:Notify("Настройки", "Скорость спама установлена: " .. value .. " сек")
 end)
 
--- Загрузка интерфейса
+
 venyx:SelectPage(venyx.pages[1], true)
